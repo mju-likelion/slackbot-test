@@ -18,7 +18,7 @@ app.command('/test', async ({ command, say }) => {
     await say(`${command.text}`);
 });
 
-app.message('hello', async ({ message, say }) => {
+app.message('a', async ({ message, say }) => {
     console.log("message");
     // say() sends a message to the channel where the event was triggered
     await say(`Hey there <@${message.user}>!`);
@@ -26,6 +26,7 @@ app.message('hello', async ({ message, say }) => {
 
 (async () => {
     await app.start(port);
-    console.log('⚡️ Bolt app is running!');
+    console.log('⚡️ src dev');
 })();
+
 

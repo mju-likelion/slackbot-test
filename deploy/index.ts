@@ -18,12 +18,13 @@ const app = new App({
 });
 
 // 채널에 익명으로 게시
-app.command('/자비스', async ({ command, say }) => {
+app.command('/test', async ({ command, ack, say }) => {
+    await ack();
     await say(`${command.text}`);
 });
 
-app.message('hello', async ({ message, say }) => {
-    console.log("message");
+app.message('s', async ({ message, say }) => {
+    console.log("message - deploy test");
     // say() sends a message to the channel where the event was triggered
     await say(`Hey there <@${message.user}>!`);
 });
@@ -32,5 +33,5 @@ export const handler = async (event: AwsEvent, context: any, callback: AwsCallba
     const handle = await awsLambdaReceiver.start();
     return handle (event, context, callback);
 }
-console.log("RUN");
+console.log("deploy test");
 

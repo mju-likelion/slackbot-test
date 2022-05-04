@@ -1,33 +1,31 @@
-// import { App, AwsLambdaReceiver } from '@slack/bolt';
-// import { AwsCallback, AwsEvent } from "@slack/bolt/dist/receivers/AwsLambdaReceiver";
-// import dotenv from 'dotenv';
+import { App } from '@slack/bolt';
+import dotenv from 'dotenv';
 
-// dotenv.config();
+dotenv.config();
+const port = 3000;
 
-// if (!process.env.SLACK_SIGNING_SECRET) {
-//     throw Error("some error")
-// }
+if (!process.env.SLACK_SIGNING_SECRET) {
+    throw Error("some error")
+}
 
-// const awsLambdaReceiver = new AwsLambdaReceiver({
-//     signingSecret: process.env.SLACK_SIGNING_SECRET,
-// });
+const app = new App({
+    token: process.env.SLACK_BOT_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
 
-// const app = new App({
-//     token: process.env.SLACK_BOT_TOKEN,
-//     receiver: awsLambdaReceiver,
-// });
+app.command('/test', async ({ command, say }) => {
+    console.log("command");
+    await say(`${command.text}`);
+});
 
-// function anonymous(app: App) {
-//     // 채널에 익명으로 게시
-//     app.command('/test', async ({ command, say }) => {
-//       await say(`${command.text}`);
-//     });
-// }
+app.message('hello', async ({ message, say }) => {
+    console.log("message");
+    // say() sends a message to the channel where the event was triggered
+    await say(`Hey there <@${message.user}>!`);
+});
 
-// anonymous(app);
-
-// export const handler = async (event: AwsEvent, context: any, callback: AwsCallback) => {
-//     const handle = await awsLambdaReceiver.start();
-//     return handle (event, context, callback);
-// }
+(async () => {
+    await app.start(port);
+    console.log('⚡️ Bolt app is running!');
+})();
 
